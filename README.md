@@ -112,6 +112,28 @@ See the **.env.example** file at the root of the project
 
 ---
 
+### Media:
+
+Media Folder: media/ (in the root of the project at the level of the manage.py file, the folder is created automatically after the server starts)
+
+---
+
+### Logging:
+
+Logs folder: logs/
+
+Standard file: main.log
+
+Logging package: root_logging
+
+Does not require configuration before starting the project (logging is configured automatically)
+
+Logging settings in simple_commentator/settings.py
+
+Works at the middleware level
+
+---
+
 ## Author
 Alex Stulen
 
