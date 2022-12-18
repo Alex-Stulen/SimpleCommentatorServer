@@ -86,6 +86,8 @@ See the **.env.example** file at the root of the project
 
 ### Project startup:
 
+0. Install Pythonб, PostgreSQL and Git of the correct version on your PC or server
+
 1. Clone project from github
 
     <code>git clone git@github.com:Alex-Stulen/SimpleCommentatorServer.git</code>
