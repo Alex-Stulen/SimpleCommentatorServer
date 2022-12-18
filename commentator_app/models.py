@@ -1,6 +1,10 @@
+import mimetypes
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.validators import UnicodeUsernameValidator
+
+from PIL import Image
 
 from commentator_app.validators.files import FileValidator
 
@@ -24,6 +28,9 @@ class AbstractComment(models.Model):
         abstract = True
 
     username_validator = UnicodeUsernameValidator()
+
+    image_max_width = 320  # px
+    image_max_height = 240  # px
 
     allowed_file_content_types = ('image/jpeg', 'image/gif', 'image/png', 'text/plain')
     # 1024 * 100 = 100kB
@@ -54,6 +61,42 @@ class AbstractComment(models.Model):
 
 class Comment(AbstractComment):
     reply_to = models.ForeignKey('self', null=True, on_delete=models.CASCADE, default=None, blank=True)
+
+    def is_image_file(self):
+        if not self.file:
+            return False
+
+        try:
+            file_type = mimetypes.guess_type(self.file.url)[0]
+            if 'image' in file_type.lower():
+                return True
+        except IndexError:
+            return False
+        except Exception as e:
+            return False
+
+    def normalize_image_size(self):
+        if not self.is_image_file():
+            return
+
+        img = Image.open(self.file.path)
+
+        width_percent = (self.image_max_width / float(img.size[0]))
+        height_size = int((float(img.size[1]) * float(width_percent)))
+
+        new_image = img.resize((self.image_max_width, height_size))
+        new_image.save(self.file.path)
+
+    def get_image_size(self):
+        if not self.file:
+            return 0, 0
+        return Image.open(self.file.path).size
+
+    def save(self, *args, **kwargs):
+        super(Comment, self).save(*args, **kwargs)
+
+        if self.file and self.is_image_file() and self.get_image_size()[0] > self.image_max_width:
+            self.normalize_image_size()
 
     def __str__(self):
         return f'id: {self.pk} -> {self.username}'
