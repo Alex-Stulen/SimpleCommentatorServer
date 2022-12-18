@@ -8,7 +8,7 @@ from commentator_app import models
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    # recaptcha = ReCaptchaV2Field()
+    recaptcha = ReCaptchaV2Field()
 
     class Meta:
         model = models.Comment
@@ -34,5 +34,5 @@ class CommentSerializer(serializers.ModelSerializer):
         return data
 
     def validate(self, attrs):
-        # attrs.pop('recaptcha')
+        attrs.pop('recaptcha')
         return attrs
