@@ -5,7 +5,7 @@
 
 ### Description:
 
-The back end of the [Simple Commentator](https://simple-commentator.com) project.
+The back end of the [Simple Commentator](https://simple-commentator.space) project.
 
 Project for simple commenting. Ability to leave comments, reply to comments, attach a file, edit comment text as html, etc.
 
