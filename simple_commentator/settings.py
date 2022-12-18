@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os
+import logging
+from logging import handlers
 
 from pathlib import Path
 
 from dotenv import load_dotenv
+
+from root_logging.logger import Logger
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -64,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'root_logging.middleware.LoggingMiddleware',
 ]
 
 ROOT_URLCONF = 'simple_commentator.urls'
@@ -163,3 +168,19 @@ if not CORS_ALLOWED_ORIGINS_RAW:
     CORS_ALLOWED_ORIGINS = []
 else:
     CORS_ALLOWED_ORIGINS = CORS_ALLOWED_ORIGINS_RAW.split(CORS_ALLOWED_ORIGINS_SEPARATOR)
+
+# Initialized logger
+LOGGER_ROOT = os.path.join(BASE_DIR, 'logs')
+if not os.path.exists(LOGGER_ROOT):
+    os.mkdir(LOGGER_ROOT)
+
+LOGGER_NAME = 'main'
+LOGGER_FILE = LOGGER_NAME + '.log'
+
+LOGGER_FILEPATH = os.path.join(LOGGER_ROOT, LOGGER_FILE)
+
+if not os.path.exists(LOGGER_FILEPATH):
+    open(LOGGER_FILEPATH, 'a').close()
+
+LOGGER_FILE_HANDLER = handlers.RotatingFileHandler(filename=LOGGER_FILEPATH, maxBytes=10 ** (1024 * 2), backupCount=1)
+LOGGER = Logger(name=LOGGER_NAME, level=logging.DEBUG, handler=LOGGER_FILE_HANDLER)
