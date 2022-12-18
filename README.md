@@ -7,6 +7,8 @@
 
 The back end of the [Simple Commentator](https://simple-commentator.space) project.
 
+[UI part](https://github.com/Alex-Stulen/SimpleCommentatorUI)
+
 Project for simple commenting. Ability to leave comments, reply to comments, attach a file, edit comment text as html, etc.
 
 ---
