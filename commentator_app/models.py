@@ -1,3 +1,4 @@
+import os
 import mimetypes
 
 from django.db import models
@@ -113,6 +114,15 @@ class Comment(AbstractComment):
                 self.normalize_image_size(normalize_relative_to='width')
             elif img_height > self.image_max_height:
                 self.normalize_image_size(normalize_relative_to='height')
+
+    def delete(self, using=None, keep_parents=False):
+        if self.file and os.path.exists(self.file.path):
+            try:
+                os.remove(self.file.path)
+            except Exception as e:
+                pass
+
+        return super(Comment, self).delete(using=using, keep_parents=keep_parents)
 
     def __str__(self):
         return f'id: {self.pk} -> {self.username}'
