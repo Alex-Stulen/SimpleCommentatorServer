@@ -75,16 +75,24 @@ class Comment(AbstractComment):
         except Exception as e:
             return False
 
-    def normalize_image_size(self):
+    def normalize_image_size(self, normalize_relative_to='width'):
         if not self.is_image_file():
             return
 
-        img = Image.open(self.file.path)
+        if normalize_relative_to == 'width':
+            img = Image.open(self.file.path)
+            width_percent = (self.image_max_width / float(img.size[0]))
+            height_size = int((float(img.size[1]) * float(width_percent)))
+            to_size = (self.image_max_width, height_size)
+        elif normalize_relative_to == 'height':
+            img = Image.open(self.file.path)
+            height_percent = (self.image_max_height / float(img.size[1]))
+            width_size = int(float(img.size[0]) * float(height_percent))
+            to_size = (width_size, self.image_max_height)
+        else:
+            return
 
-        width_percent = (self.image_max_width / float(img.size[0]))
-        height_size = int((float(img.size[1]) * float(width_percent)))
-
-        new_image = img.resize((self.image_max_width, height_size))
+        new_image = img.resize(to_size)
         new_image.save(self.file.path)
 
     def get_image_size(self):
@@ -95,8 +103,16 @@ class Comment(AbstractComment):
     def save(self, *args, **kwargs):
         super(Comment, self).save(*args, **kwargs)
 
-        if self.file and self.is_image_file() and self.get_image_size()[0] > self.image_max_width:
-            self.normalize_image_size()
+        # Normalize the size of the photo, if the file is loaded,
+        # the file is a picture and the size of the picture is larger than allowed.
+        # Normalization occurs relative to the width if the width is greater than the allowed one
+        # and relative to the height if the height is greater than the allowed one
+        if self.file and self.is_image_file():
+            img_width, img_height = self.get_image_size()
+            if img_width > self.image_max_width:
+                self.normalize_image_size(normalize_relative_to='width')
+            elif img_height > self.image_max_height:
+                self.normalize_image_size(normalize_relative_to='height')
 
     def __str__(self):
         return f'id: {self.pk} -> {self.username}'
