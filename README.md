@@ -139,6 +139,6 @@ Alex Stulen
 
 Email: **ookno16@gmail.com**
 
-Telegram: **@stule_o**
+Telegram: [@stule_o](https://t.me/stule_o)
 
 Developed and written in December 2022
