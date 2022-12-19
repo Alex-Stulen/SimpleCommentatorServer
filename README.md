@@ -62,6 +62,12 @@ Pairs are separated by \n (each pair on a new line)
 
 **DATABASE_PORT**=<int: database port>
 
+**REDIS_HOST**=<string: redis database host>
+
+**REDIS_PORT**=<int: redis database port>
+
+**REDIS_DATABASE**=<string: redis database name>
+
 **LANGUAGE_CODE**=<string: language code. Ex: en-us>
 
 **TIME_ZONE**=<string: time zone name>
