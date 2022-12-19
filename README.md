@@ -16,6 +16,7 @@ Project for simple commenting. Ability to leave comments, reply to comments, att
 ### Pre-requirements:
 
 * Python 3.6+ (developed and tested on version 3.10.8). Recommended Version: 3.10.8
+* Redis (developed and tested on version 7.0.5). Recommended Version: 7.0.5
 * PostgreSQL (developed and tested on version 14.5). Recommended Version: 14.5
 * Having an .env file at the root of the project (See section .ENV Description)
 
@@ -27,6 +28,7 @@ Project for simple commenting. Ability to leave comments, reply to comments, att
 * Django
 * Django REST Framework
 * PostgreSQL
+* Redis
 * Gunicorn
 * Nginx
 * Git
@@ -94,7 +96,7 @@ See the **.env.example** file at the root of the project
 
 ### Project startup:
 
-0. Install Python, PostgreSQL and Git of the correct version on your PC or server
+0. Install Python, PostgreSQL, Redis and Git of the correct version on your PC or server
 
 1. Clone project from github
 
