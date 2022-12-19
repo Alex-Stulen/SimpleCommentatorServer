@@ -33,6 +33,10 @@ Project for simple commenting. Ability to leave comments, reply to comments, att
 * Nginx
 * Git
 
+
+
+* Cloudflare
+
 ### Requirements:
 
 All project dependencies in the **requirements.txt** file in the project root folder
