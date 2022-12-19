@@ -146,6 +146,13 @@ Works at the middleware level
 
 ---
 
+### Cloudflare
+
+The [site](https://simple-commentator.space) uses **Cloudflare** technology to handle security requests. When using the site, make sure that your connection is safe and secure
+
+---
+
+
 ## Author
 Alex Stulen
 
